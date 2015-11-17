@@ -16,30 +16,64 @@
    	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
    	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
    	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+   	
+   	<!-- 加载Spring容器处理类 -->
+    <bean class="com.application.SpringContextHolder" />
        
-      <!--  配置数据源 -->
-      <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> -->
-       <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-       		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        	<property name="url" value="jdbc:mysql://localhost:3306/zheng_schema" />
-        	<property name="username" value="root" />
-        	<property name="password" value="" />
-      </bean>
+    <!--  配置数据源 -->
+    <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://localhost:3306/zheng_schema" />
+	    <property name="username" value="root" />
+	    <property name="password" value="" />
+    </bean>
       
-      <!-- 事务管理 -->
-      <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
-    		<property name="dataSource" ref="dataSource"/>  
-	  </bean>  
-	  <!-- 事务注解生效 -->
-	  <tx:annotation-driven transaction-manager="transactionManager" /> 
+    <!-- 创建sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 指定数据源 -->
+      	<property name="dataSource" ref="dataSource" />
+      	<!-- 指定mybatis配置文件 -->
+      	<property name="configLocation" value="classpath:mybatis.xml" />
+    </bean>
       
-      <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-      		<property name="configLocation" value="classpath:mybatis.xml" />
-      		<property name="dataSource" ref="dataSource" />
-      </bean>
+    <!-- 事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+      	<!-- 指定数据源 -->
+    	<property name="dataSource" ref="dataSource"/>  
+	</bean>  
+	<!-- 事务注解生效 -->
+	<tx:annotation-driven transaction-manager="transactionManager" /> 
       
-      <!-- 自动扫描连接mybatis的包 -->
-      <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-      		<property name="basePackage" value="com.mybatis.inter" />
-      </bean>
+      
+    <!-- 配置事务的传播特性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+      	<tx:attributes>
+      		<tx:method name="getAll" read-only="true"/>
+      		<tx:method name="getById" read-only="true"/>
+      		<tx:method name="add" propagation="REQUIRED"/>
+      		<tx:method name="update" propagation="REQUIRED"/>
+      		<tx:method name="delete" propagation="REQUIRED"/>
+      	</tx:attributes>
+    </tx:advice>
+      
+    <!-- 配置AOP -->
+    <aop:config>
+      	<!-- 切点 -->
+		<aop:pointcut expression="execution(* com.user.service..*.*(..))" id="pointcut"/>      		
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+    </aop:config>
+      
+      
+    <!-- 自动扫描连接mybatis的包 -->
+    <!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+      	<property name="basePackage" value="com.mybatis.inter" />
+    </bean> -->
+      
+      
+      
+      
+      
+      
+      
 </beans>

@@ -10,9 +10,21 @@
 <script type="text/javascript">
 
 $(function(){
-	$.post('userController/getAllUsers.htm',{},function(data){
+	/* $.post('userController/getAllUsers.htm',{},function(data){
 		alert(data);
-	},'html'); 
+	},'html');  */
+	$.ajax({
+		type:'post',
+		url:'../userController/getAllUsers.htm',
+		data:{},
+		dataType:'json',
+		success:function(){
+			alert(1111);
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			alert(XMLHttpRequest.status);
+		}
+	});
 	
 });
 	

@@ -9,9 +9,9 @@ package com.user.service;
 
 import org.springframework.stereotype.Service;
 
-import com.application.SpringContextHolder;
 import com.bean.User;
-import com.mybatis.inter.IUserOperation;
+
+
 
 /**
  * <Simple feature description >
@@ -26,9 +26,15 @@ import com.mybatis.inter.IUserOperation;
 public class UserService {
     
     public User[] getAllUsers(){
-        IUserOperation userOperation = SpringContextHolder.getBean(IUserOperation.class);
+        return null;
+    }
+    
+        /*IUserOperation userOperation = SpringContextHolder.getBean(IUserOperation.class);
         User[] users = userOperation.getAll();
         System.out.println(users[0].getId()+" "+users[0].getName()+" "+users[0].getAge()+" "+users[0].getHobby()+" "+users[0].getAddress());
-        return users;
+        return users;*/
+    
+    public static void main(String[] args) {
+        
     }
 }

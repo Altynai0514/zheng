@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    
+    <!-- 配置被代理的对象 -->
+    <bean id="userAopService" class="com.user.service.aop.UserAopService">
+    	<property name="name" value="zheng" />
+    </bean>
+    
+    <!-- 配置通知 -->
+    <bean id="MyMethodBeforeAdvice" class="com.user.service.aop.MyMethodBeforeAdvice"/>
+    <bean id="MyMethodAfterAdvice" class="com.user.service.aop.MyMethodAfterAdvice"/>
+    <bean id="MyMethodAroundAdvice" class="com.user.service.aop.MyMethodAroundAdvice"/>
+    <bean id="MyMethodThrowsAdvice" class="com.user.service.aop.MyMethodThrowsAdvice"/>
+    
+    <!-- 配置代理对象 -->
+    <bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+    	<!-- 代理接口集 -->
+    	<property name="proxyInterfaces">
+    		<list>
+    			<value>com.user.impl.UserHello</value>
+    			<value>com.user.impl.UserBye</value>
+    		</list>
+    	</property>
+    	
+    	<!-- 把通知织入到代理对象中 -->
+    	<property name="interceptorNames">
+    		<list>
+    			<value>MyMethodBeforeAdvice</value>
+    			<value>MyMethodAfterAdvice</value>
+    			<value>MyMethodAroundAdvice</value>
+    			<value>MyMethodThrowsAdvice</value>
+    		</list>
+    	</property>
+    	
+    	<!-- 配置被代理对象 -->
+    	<property name="target" ref="userAopService" />
+    </bean>
+    
+</beans>

@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,8 @@ public class UserController {
 //    @Resource(name = "userService")
 //    private UserService userService;
     
-    @RequestMapping(value="/getAllUsers",method=RequestMethod.POST)
+    //@RequestMapping(value="/getAllUsers",method=RequestMethod.POST)
+    @RequestMapping("/getAllUsers")
     @ResponseBody
     public String getAllUsers(){
         System.out.println("lalallalalalalalallala");
@@ -49,4 +51,6 @@ public class UserController {
 //        object.put("users", array);
         return "";
     }
+    
+    
 }
