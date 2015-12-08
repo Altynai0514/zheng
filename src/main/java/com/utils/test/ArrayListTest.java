@@ -5,7 +5,7 @@
  * mofidy staff:  zheng
  * mofidy time:  2015年10月18日
  */
-package com.utils;
+package com.utils.test;
 
 import java.util.ArrayList;
 import java.util.Collections;

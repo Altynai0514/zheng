@@ -5,7 +5,7 @@
  * mofidy staff:  zheng
  * mofidy time:  2015年10月10日
  */
-package com.utils;
+package com.utils.test;
 
 import java.io.File;
 import java.io.FileFilter;

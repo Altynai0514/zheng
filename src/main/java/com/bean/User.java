@@ -26,6 +26,10 @@ public class User {
     private String hobby;
     
     private String address;
+    
+    public User(int id){
+        this.id = id;
+    }
 
     /**
      * @return returns id

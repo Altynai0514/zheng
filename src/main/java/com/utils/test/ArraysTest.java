@@ -5,7 +5,7 @@
  * mofidy staff:  zheng
  * mofidy time:  2015年10月14日
  */
-package com.utils;
+package com.utils.test;
 
 import java.util.Arrays;
 import java.util.Comparator;
